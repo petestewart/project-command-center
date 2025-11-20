@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project Dashboard Prototype</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header>
+        <h1>Project Dashboard</h1>
+      </header>
+
+      <div class="layout">
+        <aside class="sidebar">
+          <h2>Worktrees</h2>
+          <ul>
+            <li class="active">feature/login-ui</li>
+            <li>bugfix/prod-timeout</li>
+            <li>refactor/db-layer</li>
+          </ul>
+        </aside>
+
+        <main class="content">
+          <div class="card">
+            <h3>Ticket Details</h3>
+            <p><strong>Ticket:</strong> FE-1234</p>
+            <p><strong>Branch:</strong> feature/login-ui</p>
+            <p><strong>Port:</strong> 5173</p>
+            <p><strong>DB:</strong> postgres://localhost:5432/loginui</p>
+          </div>
+
+          <div class="card">
+            <h3>Todos</h3>
+            <ul class="todos">
+              <li>[ ] Build login form</li>
+              <li>[ ] Implement validation</li>
+              <li>[x] Create worktree</li>
+            </ul>
+          </div>
+                  <div class="card terminal-card">
+            <h3>Terminal (Mock)</h3>
+            <div id="terminal"></div>
+          </div>
+        </main>
+      </div>
+    </div>
+    <script src="xterm.js"></script>
+    <script src="dist/terminal.js"></script>
+  </body>
+</html>

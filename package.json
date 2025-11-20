@@ -1,0 +1,29 @@
+{
+  "name": "project-dashboard-proto",
+  "version": "1.0.0",
+  "main": "dist/main.js",
+  "scripts": {
+    "build": "tsc && vite build",
+    "build:main": "tsc",
+    "build:renderer": "vite build",
+    "start": "npm run build && electron .",
+    "dev": "vite",
+    "dev:main": "tsc --watch",
+    "electron": "npm run build:main && electron ."
+  },
+  "devDependencies": {
+    "@types/electron": "^1.4.38",
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.6",
+    "@types/react-dom": "^19.2.3",
+    "@types/xterm": "^2.0.3",
+    "@vitejs/plugin-react": "^5.1.1",
+    "electron": "^31.0.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.2.2"
+  },
+  "dependencies": {
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  }
+}
