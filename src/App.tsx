@@ -12,11 +12,11 @@ const App: React.FC = () => {
   const ticketNumber = "FE-1234";
   const ticketName = "Login UI Implementation";
 
-  const todos = [
+  const [todos, setTodos] = useState([
     { text: "Build login form", completed: false },
     { text: "Implement validation", completed: false },
     { text: "Create worktree", completed: true },
-  ];
+  ]);
 
   const [notes, setNotes] = useState<Note[]>([
     {
@@ -56,6 +56,22 @@ const App: React.FC = () => {
     setNotes(updatedNotes);
   };
 
+  const handleAddTodo = (todo: { text: string; completed: boolean }) => {
+    setTodos([...todos, todo]);
+  };
+
+  const handleDeleteTodo = (index: number) => {
+    const updatedTodos = todos.filter((_, i) => i !== index);
+    setTodos(updatedTodos);
+  };
+
+  const handleToggleTodo = (index: number) => {
+    const updatedTodos = todos.map((todo, i) =>
+      i === index ? { ...todo, completed: !todo.completed } : todo
+    );
+    setTodos(updatedTodos);
+  };
+
   return (
     <div className="app">
       <Header ticketNumber={ticketNumber} ticketName={ticketName} />
@@ -69,7 +85,12 @@ const App: React.FC = () => {
         />
 
         <main className="content">
-          <TodoList todos={todos} />
+          <TodoList
+            todos={todos}
+            onAddTodo={handleAddTodo}
+            onDeleteTodo={handleDeleteTodo}
+            onToggleTodo={handleToggleTodo}
+          />
           <NoteList
             notes={notes}
             onAddNote={handleAddNote}
