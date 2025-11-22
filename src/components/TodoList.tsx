@@ -90,7 +90,7 @@ const TodoList: React.FC<TodoListProps> = ({
     <>
       <div className="card">
         <div className="card-header">
-          <h4>Tasks</h4>
+          <div className="card-title">Tasks</div>
           <div className="card-actions">
             <button
               onClick={handleFilterClick}

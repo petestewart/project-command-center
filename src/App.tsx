@@ -42,7 +42,13 @@ const App: React.FC = () => {
     },
   ]);
 
-  const [plans, setPlans] = useState<Note[]>([]);
+  const [plans, setPlans] = useState<Note[]>([
+    {
+      title: "PLAN.md",
+      url: "/Users/petestewart/Projects/project-command-center/PLAN.md",
+      type: "local" as const,
+    },
+  ]);
 
   const handleAddNote = (note: Note) => {
     setNotes([...notes, note]);
@@ -109,17 +115,18 @@ const App: React.FC = () => {
             onDeleteTodo={handleDeleteTodo}
             onToggleTodo={handleToggleTodo}
           />
-          <NoteList
-            notes={notes}
-            onAddNote={handleAddNote}
-            onUpdateNote={handleUpdateNote}
-            onDeleteNote={handleDeleteNote}
-          />
+
           <PlanList
             plans={plans}
             onAddPlan={handleAddPlan}
             onUpdatePlan={handleUpdatePlan}
             onDeletePlan={handleDeletePlan}
+          />
+          <NoteList
+            notes={notes}
+            onAddNote={handleAddNote}
+            onUpdateNote={handleUpdateNote}
+            onDeleteNote={handleDeleteNote}
           />
 
           {/* <TerminalCard /> */}

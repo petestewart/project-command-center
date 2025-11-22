@@ -1,4 +1,4 @@
-export interface ElectronAPI {
+interface ElectronAPI {
   openExternal: (url: string) => Promise<void>;
   openPath: (filePath: string) => Promise<void>;
   createMarkdownFile: (
@@ -15,3 +15,5 @@ declare global {
     electronAPI?: ElectronAPI;
   }
 }
+
+export {};

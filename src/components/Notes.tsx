@@ -310,7 +310,7 @@ const NoteList: React.FC<NoteListProps> = ({
     <>
       <div className="card">
         <div className="card-header">
-          <h4>Notes</h4>
+          <div className="card-title">Notes</div>
           <div className="card-actions">
             <button
               onClick={handleAddLinkClick}

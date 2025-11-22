@@ -1,3 +1,4 @@
+/// <reference path="../electron.d.ts" />
 import React, { useState, useEffect } from "react";
 import { FaLink, FaEdit, FaTrash } from "react-icons/fa";
 import { Note } from "./Notes";
@@ -305,7 +306,7 @@ const PlanList: React.FC<PlanListProps> = ({
     <>
       <div className="card">
         <div className="card-header">
-          <h4>Plan</h4>
+          <div className="card-title">Plan</div>
           <div className="card-actions">
             <button
               onClick={handleAddLinkClick}
