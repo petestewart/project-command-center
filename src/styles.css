@@ -87,10 +87,218 @@ body {
   background: white;
   padding: 8px 20px 20px 20px;
   border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .card h3,
 .card h4 {
   margin-top: 0;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.card-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.add-note-button,
+.add-link-button {
+  background: #0066cc;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: background-color 0.2s;
+}
+
+.add-note-button:hover,
+.add-link-button:hover {
+  background: #0052a3;
+}
+
+.add-note-button:active,
+.add-link-button:active {
+  background: #003d7a;
+}
+
+.notes {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.notes li {
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.notes li:last-child {
+  border-bottom: none;
+}
+
+.note-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.note-link {
+  color: #0066cc;
+  text-decoration: none;
+  display: block;
+  padding: 4px 0;
+  transition: color 0.2s;
+  flex: 1;
+}
+
+.note-link:hover {
+  color: #0052a3;
+  text-decoration: underline;
+}
+
+.note-actions {
+  display: flex;
+  gap: 6px;
+  opacity: 0;
+  transition: opacity 0.2s;
+  margin-left: 8px;
+}
+
+.note-item:hover .note-actions {
+  opacity: 1;
+}
+
+.note-action-button {
+  background: transparent;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s, color 0.2s;
+  font-size: 12px;
+}
+
+.note-action-button:hover {
+  background: #f0f0f0;
+}
+
+.edit-button:hover {
+  color: #0066cc;
+}
+
+.delete-button:hover {
+  color: #dc3545;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 10px;
+  padding: 24px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #333;
+}
+
+.fetching-indicator {
+  font-weight: normal;
+  color: #666;
+  font-size: 0.9em;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #0066cc;
+  box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.1);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.modal-actions button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.modal-actions button[type="button"] {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.modal-actions button[type="button"]:hover {
+  background: #e0e0e0;
+}
+
+.modal-actions button[type="submit"] {
+  background: #0066cc;
+  color: white;
+}
+
+.modal-actions button[type="submit"]:hover {
+  background: #0052a3;
 }

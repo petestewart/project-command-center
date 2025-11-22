@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Header,
   NoteList,
@@ -6,6 +6,7 @@ import {
   TodoList,
   TerminalCard,
 } from "./components";
+import { Note } from "./components/Notes";
 
 const App: React.FC = () => {
   const ticketNumber = "FE-1234";
@@ -17,13 +18,43 @@ const App: React.FC = () => {
     { text: "Create worktree", completed: true },
   ];
 
-  const notes = [
-    { text: "needs to utilize blah blah blah", completed: false },
+  const [notes, setNotes] = useState<Note[]>([
     {
-      text: "for some reason, drawings are not gettig deleted http://slack.com/1234",
-      completed: false,
+      title: "Design Spec - Google Doc",
+      url: "https://docs.google.com/document/d/example",
+      type: "external" as const,
     },
-  ];
+    {
+      title: "Confluence Page - Requirements",
+      url: "https://confluence.example.com/pages/12345",
+      type: "external" as const,
+    },
+    {
+      title: "Test Notes - test-notes.md",
+      url: "/Users/petestewart/Projects/project-command-center/test-notes.md",
+      type: "local" as const,
+    },
+    {
+      title: "Meeting Notes - notes.txt",
+      url: "/Users/petestewart/Projects/project-command-center/notes.txt",
+      type: "local" as const,
+    },
+  ]);
+
+  const handleAddNote = (note: Note) => {
+    setNotes([...notes, note]);
+  };
+
+  const handleUpdateNote = (index: number, note: Note) => {
+    const updatedNotes = [...notes];
+    updatedNotes[index] = note;
+    setNotes(updatedNotes);
+  };
+
+  const handleDeleteNote = (index: number) => {
+    const updatedNotes = notes.filter((_, i) => i !== index);
+    setNotes(updatedNotes);
+  };
 
   return (
     <div className="app">
@@ -39,7 +70,12 @@ const App: React.FC = () => {
 
         <main className="content">
           <TodoList todos={todos} />
-          <NoteList notes={notes} />
+          <NoteList
+            notes={notes}
+            onAddNote={handleAddNote}
+            onUpdateNote={handleUpdateNote}
+            onDeleteNote={handleDeleteNote}
+          />
 
           {/* <TerminalCard /> */}
         </main>
