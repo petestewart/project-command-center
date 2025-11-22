@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {
   Header,
   NoteList,
+  PlanList,
   Sidebar,
   TodoList,
   TerminalCard,
@@ -41,6 +42,8 @@ const App: React.FC = () => {
     },
   ]);
 
+  const [plans, setPlans] = useState<Note[]>([]);
+
   const handleAddNote = (note: Note) => {
     setNotes([...notes, note]);
   };
@@ -54,6 +57,21 @@ const App: React.FC = () => {
   const handleDeleteNote = (index: number) => {
     const updatedNotes = notes.filter((_, i) => i !== index);
     setNotes(updatedNotes);
+  };
+
+  const handleAddPlan = (plan: Note) => {
+    setPlans([...plans, plan]);
+  };
+
+  const handleUpdatePlan = (index: number, plan: Note) => {
+    const updatedPlans = [...plans];
+    updatedPlans[index] = plan;
+    setPlans(updatedPlans);
+  };
+
+  const handleDeletePlan = (index: number) => {
+    const updatedPlans = plans.filter((_, i) => i !== index);
+    setPlans(updatedPlans);
   };
 
   const handleAddTodo = (todo: { text: string; completed: boolean }) => {
@@ -96,6 +114,12 @@ const App: React.FC = () => {
             onAddNote={handleAddNote}
             onUpdateNote={handleUpdateNote}
             onDeleteNote={handleDeleteNote}
+          />
+          <PlanList
+            plans={plans}
+            onAddPlan={handleAddPlan}
+            onUpdatePlan={handleUpdatePlan}
+            onDeletePlan={handleDeletePlan}
           />
 
           {/* <TerminalCard /> */}

@@ -1,24 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { FaLink, FaEdit, FaTrash } from "react-icons/fa";
+import { Note } from "./Notes";
 
-export interface Note {
-  title: string;
-  url: string;
-  type: "external" | "local";
+interface PlanListProps {
+  plans: Note[];
+  onAddPlan?: (plan: Note) => void;
+  onUpdatePlan?: (index: number, plan: Note) => void;
+  onDeletePlan?: (index: number) => void;
 }
 
-interface NoteListProps {
-  notes: Note[];
-  onAddNote?: (note: Note) => void;
-  onUpdateNote?: (index: number, note: Note) => void;
-  onDeleteNote?: (index: number) => void;
-}
-
-const NoteList: React.FC<NoteListProps> = ({
-  notes,
-  onAddNote,
-  onUpdateNote,
-  onDeleteNote,
+const PlanList: React.FC<PlanListProps> = ({
+  plans,
+  onAddPlan,
+  onUpdatePlan,
+  onDeletePlan,
 }) => {
   const [showLinkModal, setShowLinkModal] = useState(false);
   const [linkUrl, setLinkUrl] = useState("");
@@ -55,17 +50,17 @@ const NoteList: React.FC<NoteListProps> = ({
         window.electronAPI &&
         trimmedUrl !== lastFetchedUrl
       ) {
-        console.log(`[Notes] Attempting to fetch title for: ${trimmedUrl}`);
+        console.log(`[Plan] Attempting to fetch title for: ${trimmedUrl}`);
         setIsFetchingTitle(true);
         try {
           const result = await window.electronAPI.fetchPageTitle(trimmedUrl);
-          console.log(`[Notes] Fetch result:`, result);
+          console.log(`[Plan] Fetch result:`, result);
           if (result.success && result.title) {
             setLinkTitle(result.title);
             setLastFetchedUrl(trimmedUrl);
           }
         } catch (error) {
-          console.error(`[Notes] Error fetching title:`, error);
+          console.error(`[Plan] Error fetching title:`, error);
         } finally {
           setIsFetchingTitle(false);
         }
@@ -76,43 +71,43 @@ const NoteList: React.FC<NoteListProps> = ({
     const timeoutId = setTimeout(fetchTitle, 800);
     return () => clearTimeout(timeoutId);
   }, [linkUrl, showLinkModal, linkTitle, lastFetchedUrl]);
-  const handleNoteClick = async (
+  const handlePlanClick = async (
     e: React.MouseEvent,
-    note: Note,
+    plan: Note,
     index: number
   ) => {
     // If Cmd (Mac) or Ctrl (Windows/Linux) is pressed, open edit modal instead
     if (e.metaKey || e.ctrlKey) {
       e.preventDefault();
-      handleEditClick(e, index, note);
+      handleEditClick(e, index, plan);
       return;
     }
 
-    if (note.type === "external") {
+    if (plan.type === "external") {
       // Open external links in default browser
       if (window.electronAPI) {
-        await window.electronAPI.openExternal(note.url);
+        await window.electronAPI.openExternal(plan.url);
       } else {
-        window.open(note.url, "_blank");
+        window.open(plan.url, "_blank");
       }
     } else {
       // Open local files
       if (window.electronAPI) {
-        await window.electronAPI.openPath(note.url);
+        await window.electronAPI.openPath(plan.url);
       } else {
         // Fallback for non-electron environment
         console.warn(
           "Cannot open local file in non-electron environment:",
-          note.url
+          plan.url
         );
       }
     }
   };
 
-  const handleAddNote = async () => {
-    if (!window.electronAPI || !onAddNote) {
+  const handleAddPlan = async () => {
+    if (!window.electronAPI || !onAddPlan) {
       console.warn(
-        "Cannot create note: electronAPI not available or onAddNote not provided"
+        "Cannot create plan: electronAPI not available or onAddPlan not provided"
       );
       return;
     }
@@ -123,7 +118,7 @@ const NoteList: React.FC<NoteListProps> = ({
         .toISOString()
         .replace(/[:.]/g, "-")
         .slice(0, -5);
-      const fileName = `note-${timestamp}.md`;
+      const fileName = `plan-${timestamp}.md`;
 
       // Create blank markdown file
       const content = "";
@@ -135,23 +130,23 @@ const NoteList: React.FC<NoteListProps> = ({
       );
 
       if (result.success && result.filePath) {
-        // Create the note object
-        const newNote: Note = {
-          title: `Note - ${fileName}`,
+        // Create the plan object
+        const newPlan: Note = {
+          title: `Plan - ${fileName}`,
           url: result.filePath,
           type: "local",
         };
 
-        // Add to notes list
-        onAddNote(newNote);
+        // Add to plans list
+        onAddPlan(newPlan);
 
         // Open the file
         await window.electronAPI.openPath(result.filePath);
       } else {
-        console.error("Failed to create note:", result.error);
+        console.error("Failed to create plan:", result.error);
       }
     } catch (error) {
-      console.error("Error creating note:", error);
+      console.error("Error creating plan:", error);
     }
   };
 
@@ -167,8 +162,8 @@ const NoteList: React.FC<NoteListProps> = ({
   const handleLinkSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!onAddNote) {
-      console.warn("Cannot add link: onAddNote not provided");
+    if (!onAddPlan) {
+      console.warn("Cannot add link: onAddPlan not provided");
       return;
     }
 
@@ -177,15 +172,15 @@ const NoteList: React.FC<NoteListProps> = ({
 
     const title = linkTitle.trim() || url;
 
-    // Create the note object
-    const newNote: Note = {
+    // Create the plan object
+    const newPlan: Note = {
       title: title || url,
       url: url,
       type: "external",
     };
 
-    // Add to notes list
-    onAddNote(newNote);
+    // Add to plans list
+    onAddPlan(newPlan);
 
     // Reset and close modal
     setLinkUrl("");
@@ -201,20 +196,20 @@ const NoteList: React.FC<NoteListProps> = ({
     setShowLinkModal(false);
   };
 
-  const handleEditClick = (e: React.MouseEvent, index: number, note: Note) => {
+  const handleEditClick = (e: React.MouseEvent, index: number, plan: Note) => {
     e.preventDefault();
     e.stopPropagation();
     setEditingIndex(index);
-    setEditUrl(note.url);
-    setEditTitle(note.title);
+    setEditUrl(plan.url);
+    setEditTitle(plan.title);
     setLastFetchedEditUrl("");
   };
 
   const handleDeleteClick = (e: React.MouseEvent, index: number) => {
     e.preventDefault();
     e.stopPropagation();
-    if (onDeleteNote) {
-      onDeleteNote(index);
+    if (onDeletePlan) {
+      onDeletePlan(index);
     }
   };
 
@@ -233,7 +228,7 @@ const NoteList: React.FC<NoteListProps> = ({
         const fileName = trimmedUrl.split(/[/\\]/).pop() || trimmedUrl;
         // Update title to show the filename (only if URL changed)
         if (trimmedUrl !== lastFetchedEditUrl) {
-          setEditTitle(`Note - ${fileName}`);
+          setEditTitle(`Plan - ${fileName}`);
           setLastFetchedEditUrl(trimmedUrl);
         }
       } else {
@@ -251,7 +246,7 @@ const NoteList: React.FC<NoteListProps> = ({
               setLastFetchedEditUrl(trimmedUrl);
             }
           } catch (error) {
-            console.error(`[Notes] Error fetching title:`, error);
+            console.error(`[Plan] Error fetching title:`, error);
           } finally {
             setIsFetchingEditTitle(false);
           }
@@ -267,9 +262,9 @@ const NoteList: React.FC<NoteListProps> = ({
   const handleEditSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!onUpdateNote || editingIndex === null) {
+    if (!onUpdatePlan || editingIndex === null) {
       console.warn(
-        "Cannot update note: onUpdateNote not provided or no editing index"
+        "Cannot update plan: onUpdatePlan not provided or no editing index"
       );
       return;
     }
@@ -279,8 +274,8 @@ const NoteList: React.FC<NoteListProps> = ({
 
     const title = editTitle.trim() || url;
 
-    // Create the updated note object
-    const updatedNote: Note = {
+    // Create the updated plan object
+    const updatedPlan: Note = {
       title: title || url,
       url: url,
       type:
@@ -289,8 +284,8 @@ const NoteList: React.FC<NoteListProps> = ({
           : "local",
     };
 
-    // Update the note
-    onUpdateNote(editingIndex, updatedNote);
+    // Update the plan
+    onUpdatePlan(editingIndex, updatedPlan);
 
     // Reset and close modal
     setEditUrl("");
@@ -310,7 +305,7 @@ const NoteList: React.FC<NoteListProps> = ({
     <>
       <div className="card">
         <div className="card-header">
-          <h4>Notes</h4>
+          <h4>Plan</h4>
           <div className="card-actions">
             <button
               onClick={handleAddLinkClick}
@@ -321,9 +316,9 @@ const NoteList: React.FC<NoteListProps> = ({
               <FaLink />
             </button>
             <button
-              onClick={handleAddNote}
+              onClick={handleAddPlan}
               className="add-note-button"
-              title="Add new note"
+              title="Add new plan"
               type="button"
             >
               +
@@ -331,23 +326,23 @@ const NoteList: React.FC<NoteListProps> = ({
           </div>
         </div>
         <ul className="notes">
-          {notes.map((note, index) => (
+          {plans.map((plan, index) => (
             <li key={index} className="note-item">
               <a
                 href="#"
                 onClick={(e) => {
                   e.preventDefault();
-                  handleNoteClick(e, note, index);
+                  handlePlanClick(e, plan, index);
                 }}
                 className="note-link"
               >
-                {note.title}
+                {plan.title}
               </a>
               <div className="note-actions">
                 <button
-                  onClick={(e) => handleEditClick(e, index, note)}
+                  onClick={(e) => handleEditClick(e, index, plan)}
                   className="note-action-button edit-button"
-                  title="Edit note"
+                  title="Edit plan"
                   type="button"
                 >
                   <FaEdit />
@@ -355,7 +350,7 @@ const NoteList: React.FC<NoteListProps> = ({
                 <button
                   onClick={(e) => handleDeleteClick(e, index)}
                   className="note-action-button delete-button"
-                  title="Delete note"
+                  title="Delete plan"
                   type="button"
                 >
                   <FaTrash />
@@ -372,9 +367,9 @@ const NoteList: React.FC<NoteListProps> = ({
             <h3>Add New Link</h3>
             <form onSubmit={handleLinkSubmit}>
               <div className="form-group">
-                <label htmlFor="link-url">URL *</label>
+                <label htmlFor="plan-link-url">URL *</label>
                 <input
-                  id="link-url"
+                  id="plan-link-url"
                   type="url"
                   value={linkUrl}
                   onChange={(e) => setLinkUrl(e.target.value)}
@@ -384,14 +379,14 @@ const NoteList: React.FC<NoteListProps> = ({
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="link-title">
+                <label htmlFor="plan-link-title">
                   Title (optional)
                   {isFetchingTitle && (
                     <span className="fetching-indicator"> - Fetching...</span>
                   )}
                 </label>
                 <input
-                  id="link-title"
+                  id="plan-link-title"
                   type="text"
                   value={linkTitle}
                   onChange={(e) => setLinkTitle(e.target.value)}
@@ -416,12 +411,12 @@ const NoteList: React.FC<NoteListProps> = ({
       {editingIndex !== null && (
         <div className="modal-overlay" onClick={handleEditCancel}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <h3>Edit Note</h3>
+            <h3>Edit Plan</h3>
             <form onSubmit={handleEditSubmit}>
               <div className="form-group">
-                <label htmlFor="edit-url">URL or File Path *</label>
+                <label htmlFor="plan-edit-url">URL or File Path *</label>
                 <input
-                  id="edit-url"
+                  id="plan-edit-url"
                   type="text"
                   value={editUrl}
                   onChange={(e) => setEditUrl(e.target.value)}
@@ -431,14 +426,14 @@ const NoteList: React.FC<NoteListProps> = ({
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="edit-title">
+                <label htmlFor="plan-edit-title">
                   Title (optional)
                   {isFetchingEditTitle && (
                     <span className="fetching-indicator"> - Fetching...</span>
                   )}
                 </label>
                 <input
-                  id="edit-title"
+                  id="plan-edit-title"
                   type="text"
                   value={editTitle}
                   onChange={(e) => setEditTitle(e.target.value)}
@@ -463,4 +458,4 @@ const NoteList: React.FC<NoteListProps> = ({
   );
 };
 
-export default NoteList;
+export default PlanList;
