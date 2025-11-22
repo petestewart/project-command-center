@@ -46,6 +46,34 @@ body {
   color: white;
 }
 
+.sidebar .project-name {
+  font-weight: 400;
+  margin-bottom: 4px;
+  font-size: 0.85em;
+}
+
+.sidebar .worktrees {
+  margin-top: 6px;
+  margin-left: 12px;
+  padding-left: 0;
+}
+
+.sidebar .worktrees li {
+  padding: 6px 10px;
+  font-size: 0.9em;
+  font-family: monospace;
+  opacity: 0.85;
+}
+
+.sidebar .worktrees li:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar .active .worktrees li.active {
+  background: rgba(255, 255, 255, 0.2);
+  opacity: 1;
+}
+
 .content {
   flex: 1;
   padding: 20px;
@@ -57,11 +85,12 @@ body {
 
 .card {
   background: white;
-  padding: 20px;
+  padding: 8px 20px 20px 20px;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.card h3 {
+.card h3,
+.card h4 {
   margin-top: 0;
 }

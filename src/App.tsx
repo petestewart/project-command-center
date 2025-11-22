@@ -41,7 +41,7 @@ const App: React.FC = () => {
           <TodoList todos={todos} />
           <NoteList notes={notes} />
 
-          <TerminalCard />
+          {/* <TerminalCard /> */}
         </main>
       </div>
     </div>

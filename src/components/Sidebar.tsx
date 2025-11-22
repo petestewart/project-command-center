@@ -43,21 +43,10 @@ const Sidebar: React.FC<SidebarProps> = ({
 
   return (
     <aside className="sidebar">
-      <h2>Projects</h2>
       <ul>
         {projects.map((project) => (
           <li key={project.name} className={project.active ? "active" : ""}>
             <div className="project-name">{project.name}</div>
-            <ul className="worktrees">
-              {project.worktrees.map((worktree) => (
-                <li
-                  key={worktree.name}
-                  className={worktree.active ? "active" : ""}
-                >
-                  {worktree.name}
-                </li>
-              ))}
-            </ul>
           </li>
         ))}
       </ul>

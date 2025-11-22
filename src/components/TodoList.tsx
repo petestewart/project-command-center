@@ -12,14 +12,14 @@ interface TodoListProps {
 const TodoList: React.FC<TodoListProps> = ({ todos }) => {
   return (
     <div className="card">
-      <h3>Todos</h3>
-      <ul className="todos">
+      <h4>Tasks</h4>
+      {/* <ul className="todos"> */}
         {todos.map((todo, index) => (
-          <li key={index}>
+          <div key={index}>
             {todo.completed ? '🔲' : '☑️'} {todo.text}
-          </li>
+          </div>
         ))}
-      </ul>
+      {/* </ul> */}
     </div>
   );
 };
