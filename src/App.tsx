@@ -1,48 +1,45 @@
-import React, { useEffect } from 'react';
-import { Header, Sidebar, TicketDetails, TodoList, TerminalCard } from './components';
+import React from "react";
+import {
+  Header,
+  NoteList,
+  Sidebar,
+  TodoList,
+  TerminalCard,
+} from "./components";
 
 const App: React.FC = () => {
-  useEffect(() => {
-    // Initialize terminal when component mounts
-    const script1 = document.createElement('script');
-    script1.src = 'xterm.js';
-    script1.async = true;
-    document.head.appendChild(script1);
-
-    const script2 = document.createElement('script');
-    script2.src = 'dist/terminal.js';
-    script2.async = true;
-    document.head.appendChild(script2);
-
-    return () => {
-      // Cleanup scripts when component unmounts
-      document.head.removeChild(script1);
-      document.head.removeChild(script2);
-    };
-  }, []);
+  const ticketNumber = "FE-1234";
+  const ticketName = "Login UI Implementation";
 
   const todos = [
-    { text: 'Build login form', completed: false },
-    { text: 'Implement validation', completed: false },
-    { text: 'Create worktree', completed: true }
+    { text: "Build login form", completed: false },
+    { text: "Implement validation", completed: false },
+    { text: "Create worktree", completed: true },
+  ];
+
+  const notes = [
+    { text: "needs to utilize blah blah blah", completed: false },
+    {
+      text: "for some reason, drawings are not gettig deleted http://slack.com/1234",
+      completed: false,
+    },
   ];
 
   return (
     <div className="app">
-      <Header />
+      <Header ticketNumber={ticketNumber} ticketName={ticketName} />
 
       <div className="layout">
-        <Sidebar />
+        <Sidebar
+          ticket={ticketNumber}
+          branch="feature/login-ui"
+          port={5173}
+          database="localhost:5432/loginui"
+        />
 
         <main className="content">
-          <TicketDetails
-            ticket="FE-1234"
-            branch="feature/login-ui"
-            port={5173}
-            database="postgres://localhost:5432/loginui"
-          />
-
           <TodoList todos={todos} />
+          <NoteList notes={notes} />
 
           <TerminalCard />
         </main>

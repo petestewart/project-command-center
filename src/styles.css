@@ -6,7 +6,8 @@ body {
 }
 
 .app header {
-  padding: 20px;
+  height: 20px;
+  padding: 10px;
   background: #222;
   color: white;
   text-align: center;

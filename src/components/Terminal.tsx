@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from "react";
 
 const Terminal: React.FC = () => {
   const terminalRef = useRef<HTMLDivElement>(null);
@@ -10,9 +10,9 @@ const Terminal: React.FC = () => {
         const Terminal = (window as any).Terminal;
         const term = new Terminal();
         term.open(terminalRef.current);
-        term.writeln('Mock Terminal Ready...');
-        term.writeln('> npm run dev');
-        term.writeln('Starting server...');
+        term.writeln("Mock Terminal Ready...");
+        term.writeln("> npm run dev");
+        term.writeln("Starting server...");
       }
     };
 

@@ -1,4 +1,10 @@
-import React from 'react';
+import React from "react";
+import {
+  FaTicketAlt,
+  FaCodeBranch,
+  FaServer,
+  FaDatabase,
+} from "react-icons/fa";
 
 interface TicketDetailsProps {
   ticket: string;
@@ -11,18 +17,36 @@ const TicketDetails: React.FC<TicketDetailsProps> = ({
   ticket,
   branch,
   port,
-  database
+  database,
 }) => {
   return (
     <div className="card">
-      <h3>Ticket Details</h3>
-      <p><strong>Ticket:</strong> {ticket}</p>
-      <p><strong>Branch:</strong> {branch}</p>
-      <p><strong>Port:</strong> {port}</p>
-      <p><strong>DB:</strong> {database}</p>
+      <p>
+        <strong>
+          <FaTicketAlt style={{ display: "inline", marginRight: "4px" }} />
+        </strong>{" "}
+        <span style={{ fontFamily: "monospace" }}>{ticket}</span>
+      </p>
+      <p>
+        <strong>
+          <FaCodeBranch style={{ display: "inline", marginRight: "4px" }} />
+        </strong>{" "}
+        <span style={{ fontFamily: "monospace" }}>{branch}</span>
+      </p>
+      <p>
+        <strong>
+          <FaServer style={{ display: "inline", marginRight: "4px" }} />
+        </strong>{" "}
+        <span style={{ fontFamily: "monospace" }}>{port}</span>
+      </p>
+      <p>
+        <strong>
+          <FaDatabase style={{ display: "inline", marginRight: "4px" }} />
+        </strong>{" "}
+        <span style={{ fontFamily: "monospace" }}>{database}</span>
+      </p>
     </div>
   );
 };
 
 export default TicketDetails;
-

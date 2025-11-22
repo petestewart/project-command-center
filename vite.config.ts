@@ -1,17 +1,17 @@
 /// <reference types="vite/client" />
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
-  base: './',
+  base: "./",
   build: {
-    outDir: 'dist/renderer',
+    outDir: "dist/renderer",
     rollupOptions: {
-      input: './src/index.html'
-    }
+      input: "./src/index.html",
+    },
   },
   server: {
-    port: 3000
-  }
-})
+    port: 3000,
+  },
+});

@@ -1,12 +1,16 @@
-import React from 'react';
+import React from "react";
 
-const Header: React.FC = () => {
+interface HeaderProps {
+  ticketNumber: string;
+  ticketName: string;
+}
+
+const Header: React.FC<HeaderProps> = ({ ticketNumber, ticketName }) => {
   return (
     <header>
-      <h1>Project Dashboard</h1>
+      {ticketNumber} - {ticketName}
     </header>
   );
 };
 
 export default Header;
-
